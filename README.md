@@ -35,4 +35,8 @@ I used the Arduino IDE v1.8.13 to compile and flash the code on to the nRF52840.
 
 ![image](https://github.com/user-attachments/assets/0594533c-a8d2-418c-947f-c67004b45f60)
 
+## PlatformIO
+
+![issue with dependencies](https://community.platformio.org/t/cant-find-adafruit-nrf52-arduino-library-on-platformio/26547)
+
 
