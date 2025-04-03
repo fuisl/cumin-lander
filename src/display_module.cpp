@@ -11,9 +11,9 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 GFXcanvas1 canvas(128, 32);
 
-static char timeHour[8];
-static char timeMinute[8];
-static char timeSecond[8];
+static char timeHour[12];
+static char timeMinute[12];
+static char timeSecond[12];
 
 // Helper: Convert 24-hour format to 12-hour format.
 int timeto12(int hourin24) {
@@ -46,11 +46,11 @@ void updateDisplay() {
   int tempC         = bme.readTemperature();
   int humi          = bme.readHumidity();
   int pressure_hPa  = bme.readPressure() / 100.0F;
-  int altitude_m    = bme.readAltitude(SEALEVELPRESSURE_HPA);
+//   int altitude_m    = bme.readAltitude(SEALEVELPRESSURE_HPA);
   
-  sprintf(timeHour, "%02d", timeto12(hour(t)));
-  sprintf(timeMinute, "%02d", minute(t));
-  sprintf(timeSecond, "%02d", second(t));
+  snprintf(timeHour, sizeof(timeHour), "%02d", timeto12(hour(t)));
+  snprintf(timeMinute, sizeof(timeMinute), "%02d", minute(t));
+  snprintf(timeSecond, sizeof(timeSecond), "%02d", second(t));
   
   canvas.setFont();
   canvas.setTextSize(1);
