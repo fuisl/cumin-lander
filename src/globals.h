@@ -6,7 +6,9 @@
 // Pin definitions
 #define RED_LED      D2
 #define GREEN_LED    D6
-#define LED_BLUE     D7      // Example: onboard LED pin (active low)
+#ifndef LED_BLUE
+#define LED_BLUE     D7
+#endif      
 #define speakerPin   D0
 #define BUTTON       D1
 
