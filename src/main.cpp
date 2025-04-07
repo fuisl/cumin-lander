@@ -1,69 +1,68 @@
-#include <Arduino.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include <Adafruit_BME280.h>
 #include <TimeLib.h>
-#include "globals.h"
-#include "ble_module.h"
-#include "sensor_module.h"
+
+// Include our modules
 #include "display_module.h"
-#include "sound_module.h"
+#include "sensor_module.h"
+#include "ble_module.h"
+#include "external_led.h"
+#include "globals.h"
 
-// Helper function: Blink LEDs
-void blinkLEDs() {
-  for (int i = 0; i < 5; i++) {
-    digitalWrite(GREEN_LED, HIGH);
-    delay(10);
-    digitalWrite(GREEN_LED, LOW);
-    delay(50);
-  }
-  for (int i = 0; i < 5; i++) {
-    digitalWrite(RED_LED, HIGH);
-    delay(10);
-    digitalWrite(RED_LED, LOW);
-    delay(50);
-  }
-}
+// Timer variables
+unsigned long previousMillis = 0;
+const long updateInterval = 1000; // Update every second
 
-void setup() {
+void setup()
+{
   Serial.begin(9600);
   delay(100);
+  Serial.println("Cumin Lander Starting...");
+
+  // Configure GPIO pins for LEDs
+  pinMode(RED_LED, OUTPUT);   // Red LED
+  pinMode(GREEN_LED, OUTPUT); // Green LED
+  pinMode(LED_BLUE, OUTPUT);  // Blue LED
+
+  // Initialize all LEDs to OFF (HIGH for active LOW)
+  digitalWrite(RED_LED, HIGH);
+  digitalWrite(GREEN_LED, HIGH);
+  digitalWrite(LED_BLUE, HIGH);
 
   // Initialize modules
-  initBLE();
+  Wire.begin(); // Initialize I2C bus
   initSensors();
   initDisplay();
-  
-  // Set pin modes
-  pinMode(GREEN_LED, OUTPUT);
-  pinMode(RED_LED, OUTPUT);
-  pinMode(LED_BLUE, OUTPUT);
-  pinMode(speakerPin, OUTPUT);
-  
-  // Play startup melody
-  playStartupMelody();
-  
-  // Turn off LEDs (LED_BLUE assumed active low)
-  digitalWrite(GREEN_LED, LOW);
-  digitalWrite(RED_LED, LOW);
-  digitalWrite(LED_BLUE, HIGH);
-  
-  // Set initial time (example values)
-  hourFormat12();
-  setTime(19, 27, 36, 17, 1, 2024);
-  
-  Serial.println("-- Begin Test --");
+  initBLE();
+  initExternalLED(); // Initialize our external LED on pin D6
+
+  // Set default time
+  setTime(12, 0, 0, 1, 1, 2024);
+
+  Serial.println("Initialization complete");
 }
 
-void loop() {
-  // Process BLE UART input to potentially update the time.
-  updateBLE();
-  
-  // Update sensor data if needed (readings are taken in updateDisplay).
-  updateSensor();
-  
-  // Update the OLED display with current time and sensor readings.
-  updateDisplay();
-  
-  // Blink LEDs as a visual indicator.
-  blinkLEDs();
-  
-  delay(400);
+void loop()
+{
+  unsigned long currentMillis = millis();
+
+  // Update every second
+  if (currentMillis - previousMillis >= updateInterval)
+  {
+    previousMillis = currentMillis;
+
+    // Update BLE (process incoming data)
+    updateBLE();
+
+    // Update displays and external LED
+    updateDisplay();     // Update the OLED display
+    updateExternalLED(); // Update the external LED based on sensor readings
+
+    // Blink blue LED to indicate activity
+    digitalWrite(LED_BLUE, LOW);
+    delay(50);
+    digitalWrite(LED_BLUE, HIGH);
+  }
 }
