@@ -6,6 +6,10 @@
 #include "display_module.h"
 #include "sound_module.h"
 
+// Thêm biến toàn cục cho blink
+unsigned long previousMillis = 0;
+const long updateInterval = 1000; // Cập nhật mỗi giây
+
 // Helper function: Blink LEDs
 void blinkLEDs()
 {
@@ -52,7 +56,6 @@ void setup()
   // Set initial time (example values)
   hourFormat12();
   setTime(19, 27, 36, 17, 1, 2024);
-
   Serial.println("-- Begin Test --");
 }
 
@@ -67,7 +70,6 @@ bool ledState = false;
 void updateLEDEffect()
 {
   unsigned long currentMillis = millis();
-
   if (currentMillis - ledPreviousMillis >= ledPatterns[ledPatternIndex])
   {
     ledPreviousMillis = currentMillis;
@@ -75,8 +77,8 @@ void updateLEDEffect()
     // Đảo trạng thái LED
     ledState = !ledState;
 
-    // Sáng thì LOW, tắt thì HIGH (active LOW)
-    digitalWrite(LED_BUILTIN, ledState ? LOW : HIGH);
+    // Sáng thì HIGH, tắt thì LOW (active HIGH cho RED_LED)
+    digitalWrite(RED_LED, ledState ? HIGH : LOW);
 
     // Chuyển sang mẫu tiếp theo
     ledPatternIndex = (ledPatternIndex + 1) % (sizeof(ledPatterns) / sizeof(ledPatterns[0]));
@@ -94,16 +96,19 @@ void loop()
   // Update the OLED display with current time and sensor readings.
   updateDisplay();
 
-  // Blink LEDs as a visual indicator.
+  // Blink LED_BLUE as a visual indicator.
   unsigned long currentMillis = millis();
-
   if (currentMillis - previousMillis >= updateInterval)
   {
     previousMillis = currentMillis;
-    digitalWrite(BUILTIN_LED, LOW);
+    digitalWrite(LED_BLUE, LOW); // Bật LED xanh
     delay(50);
-    digitalWrite(BUILTIN_LED, HIGH);
+    digitalWrite(LED_BLUE, HIGH); // Tắt LED xanh
   }
 
-  delay(400);
+  // Cập nhật hiệu ứng LED cho RED_LED (hiệu ứng robot vũ trụ)
+  updateLEDEffect();
+
+  // Đừng delay quá lâu tại đây, nếu không sẽ làm ảnh hưởng đến hiệu ứng nhấp nháy
+  delay(10);
 }
