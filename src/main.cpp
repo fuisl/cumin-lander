@@ -15,9 +15,9 @@ void blinkLEDs() {
     delay(50);
   }
   for (int i = 0; i < 5; i++) {
-    digitalWrite(RED_LED, HIGH);
+    digitalWrite(LED_RED, LOW);
     delay(10);
-    digitalWrite(RED_LED, LOW);
+    digitalWrite(LED_RED, HIGH);
     delay(50);
   }
 }
