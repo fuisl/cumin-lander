@@ -4,7 +4,7 @@
 Adafruit_BME280 bme; // Global sensor instance
 
 void initSensors() {
-  unsigned status = bme.begin();
+  unsigned status = bme.begin(0x76); // I2C address for BME280
   if (!status) {
     Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
     Serial.print("SensorID was: 0x");
