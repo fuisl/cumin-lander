@@ -1,0 +1,100 @@
+[wokwi]
+version = 1
+firmware = ".pio/build/xiaoble_arduinocore_mbed/firmware.hex"
+elf = ".pio/build/xiaoble_arduinocore_mbed/firmware.elf"
+
+# Specify the microcontroller
+[board]
+type = "seeed-xiao-nrf52840"
+
+# Configure pins for components
+[[pin]]
+name = "SDA"
+value = "A4"  # I2C SDA pin for OLED
+
+[[pin]]
+name = "SCL"
+value = "A5"  # I2C SCL pin for OLED
+
+# Define the OLED display
+[[component]]
+type = "wokwi-ssd1306"
+id = "oled1"
+top = 0
+left = 0
+attrs = { width = "128", height = "32" }
+
+# Connect I2C between OLED and microcontroller
+[[connection]]
+source = "seeed-xiao-nrf52840:A4"  # SDA
+target = "oled1:SDA"
+
+[[connection]]
+source = "seeed-xiao-nrf52840:A5"  # SCL
+target = "oled1:SCL"
+
+[[connection]]
+source = "seeed-xiao-nrf52840:3V3"
+target = "oled1:VCC"
+
+[[connection]]
+source = "seeed-xiao-nrf52840:GND"
+target = "oled1:GND"
+
+# Define the BME280 sensor
+[[component]]
+type = "wokwi-bme280"
+id = "bme280"
+top = 150
+left = 0
+
+# Connect I2C to BME280
+[[connection]]
+source = "seeed-xiao-nrf52840:A4"  # SDA
+target = "bme280:SDA"
+
+[[connection]]
+source = "seeed-xiao-nrf52840:A5"  # SCL
+target = "bme280:SCL"
+
+[[connection]]
+source = "seeed-xiao-nrf52840:3V3"
+target = "bme280:VCC"
+
+[[connection]]
+source = "seeed-xiao-nrf52840:GND"
+target = "bme280:GND"
+
+# LED connections
+[[component]]
+type = "wokwi-led"
+id = "led1"  # RED LED
+color = "red"
+top = 100
+left = 100
+
+[[component]]
+type = "wokwi-led"
+id = "led2"  # GREEN LED
+color = "green"
+top = 100
+left = 150
+
+# LED connections with resistors
+[[connection]]
+source = "seeed-xiao-nrf52840:D2"  # RED_LED pin
+target = "led1:A"
+
+[[connection]]
+source = "led1:C"
+target = "seeed-xiao-nrf52840:GND"
+via = [100, 200]
+
+[[connection]]
+source = "seeed-xiao-nrf52840:D6"  # GREEN_LED pin
+target = "led2:A"
+
+[[connection]]
+source = "led2:C"
+target = "seeed-xiao-nrf52840:GND"
+via = [150, 200]

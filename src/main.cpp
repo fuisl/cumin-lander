@@ -6,6 +6,7 @@
 #include "display_module.h"
 #include "sound_module.h"
 #include "blinking_led.h"
+#include "maneki_neko.h"
 
 void setup()
 {
@@ -16,6 +17,7 @@ void setup()
   initBLE();
   initSensors();
   initDisplay();
+  initManekiNeko();
 
   // Set pin modes
   pinMode(GREEN_LED, OUTPUT);
@@ -47,10 +49,27 @@ void loop()
   updateSensor();
 
   // Update the OLED display with current time and sensor readings.
-  updateDisplay();
+  // updateDisplay();
+  // switch display mode
+  checkDisplayToggle();
+  if (showManekiNeko)
+  {
+    updateManekiNeko(display);
+  }
+  else
+  {
+    updateDisplay();
+  }
 
   // Blink LEDs as a visual indicator.
   blinkLEDs();
 
-  delay(400);
+  if (showManekiNeko)
+  {
+    delay(100); // Faster animation for bongo cat
+  }
+  else
+  {
+    delay(400);
+  }
 }

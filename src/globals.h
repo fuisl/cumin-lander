@@ -2,6 +2,8 @@
 #define GLOBALS_H
 
 #include <Arduino.h>
+#include <Adafruit_SSD1306.h>
+#include <Wire.h>
 
 // Pin definitions
 #define RED_LED D2
@@ -38,5 +40,12 @@ extern int noteDurations[];
 extern int tempC;
 extern int humi;
 extern int pressure_hPA;
+
+// Bongo cat
+extern const unsigned char bongo_cat_down[];
+extern const unsigned char bongo_cat_up[];
+
+// display
+extern Adafruit_SSD1306 display;
 
 #endif

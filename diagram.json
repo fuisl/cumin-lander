@@ -1,0 +1,76 @@
+{
+    "version": 1,
+    "author": "Your Name",
+    "editor": "wokwi",
+    "parts": [
+      {
+        "type": "wokwi-arduino-nano",
+        "id": "nano",
+        "top": 0,
+        "left": 0,
+        "attrs": {}
+      },
+      {
+        "type": "wokwi-ssd1306",
+        "id": "oled1",
+        "top": 0, 
+        "left": 150,
+        "attrs": { "width": "128", "height": "32" }
+      },
+      {
+        "type": "wokwi-bme280",
+        "id": "bme280",
+        "top": 150,
+        "left": 150,
+        "attrs": {}
+      },
+      {
+        "type": "wokwi-led",
+        "id": "led1",
+        "top": 100,
+        "left": 150,
+        "attrs": { "color": "red" }
+      },
+      {
+        "type": "wokwi-led",
+        "id": "led2",
+        "top": 100,
+        "left": 200,
+        "attrs": { "color": "green" }
+      },
+      {
+        "type": "wokwi-resistor",
+        "id": "r1",
+        "top": 120,
+        "left": 150,
+        "attrs": { "value": "220" }
+      },
+      {
+        "type": "wokwi-resistor",
+        "id": "r2",
+        "top": 120,
+        "left": 200,
+        "attrs": { "value": "220" }
+      }
+    ],
+    "connections": [
+      [ "nano:A4", "oled1:SDA", "green", [ "v0" ] ],
+      [ "nano:A5", "oled1:SCL", "yellow", [ "v0" ] ],
+      [ "nano:3V3", "oled1:VCC", "red", [ "v0" ] ],
+      [ "nano:GND.1", "oled1:GND", "black", [ "v0" ] ],
+      
+      [ "nano:A4", "bme280:SDA", "green", [ "v0" ] ],
+      [ "nano:A5", "bme280:SCL", "yellow", [ "v0" ] ],
+      [ "nano:3V3", "bme280:VCC", "red", [ "v0" ] ],
+      [ "nano:GND.1", "bme280:GND", "black", [ "v0" ] ],
+      
+      [ "nano:D2", "r1:1", "red", [ "v0" ] ],
+      [ "r1:2", "led1:A", "red", [ "v0" ] ],
+      [ "led1:C", "nano:GND.2", "black", [ "v0" ] ],
+      
+      [ "nano:D6", "r2:1", "green", [ "v0" ] ],
+      [ "r2:2", "led2:A", "green", [ "v0" ] ],
+      [ "led2:C", "nano:GND.2", "black", [ "v0" ] ]
+    ],
+    "dependencies": {}
+  }
