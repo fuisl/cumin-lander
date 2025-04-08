@@ -16,7 +16,8 @@ static char timeMinute[12];
 static char timeSecond[12];
 
 // Helper: Convert 24-hour format to 12-hour format.
-int timeto12(int hourin24) {
+int timeto12(int hourin24)
+{
   if (hourin24 == 0)
     return 12;
   if (hourin24 > 12)
@@ -24,41 +25,40 @@ int timeto12(int hourin24) {
   return hourin24;
 }
 
-void initDisplay() {
-  if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+void initDisplay()
+{
+  if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS))
+  {
     Serial.println(F("SSD1306 allocation failed"));
-    while (1);
+    while (1)
+      ;
   }
   display.clearDisplay();
   display.display();
 }
 
-void updateDisplay() {
+void updateDisplay()
+{
   canvas.fillScreen(0);
   canvas.setTextColor(SSD1306_WHITE, SSD1306_BLACK);
   canvas.setRotation(1);
   canvas.drawLine(0, 10, 32, 10, SSD1306_WHITE);
   canvas.drawLine(0, 84, 32, 84, SSD1306_WHITE);
-  
+
   time_t t = now();
-  
-  // Read sensor values
-  int tempC         = bme.readTemperature();
-  int humi          = bme.readHumidity();
-  int pressure_hPa  = bme.readPressure() / 100.0F;
-//   int altitude_m    = bme.readAltitude(SEALEVELPRESSURE_HPA);
-  
+  //   int altitude_m    = bme.readAltitude(SEALEVELPRESSURE_HPA);
+
   snprintf(timeHour, sizeof(timeHour), "%02d", timeto12(hour(t)));
   snprintf(timeMinute, sizeof(timeMinute), "%02d", minute(t));
   snprintf(timeSecond, sizeof(timeSecond), "%02d", second(t));
-  
+
   canvas.setFont();
   canvas.setTextSize(1);
   canvas.setCursor(0, 0);
   canvas.print("/////");
   canvas.setCursor(0, 15);
   canvas.print(isPM() ? F("   PM") : F("   AM"));
-  
+
   canvas.setFont(&DSEG7_Classic_Mini_Regular_15);
   canvas.setCursor(5, 40);
   canvas.print(timeHour);
@@ -66,10 +66,11 @@ void updateDisplay() {
   canvas.print(timeMinute);
   canvas.setCursor(5, 80);
   canvas.print(timeSecond);
-  
+
   canvas.setFont();
   canvas.setTextSize(1);
-  if (!isnan(tempC)) {
+  if (!isnan(tempC))
+  {
     Serial.print("Temp *C = ");
     Serial.print(tempC);
     Serial.print("\t\t");
@@ -77,11 +78,14 @@ void updateDisplay() {
     canvas.print("  ");
     canvas.print(tempC);
     canvas.print("C");
-  } else {
+  }
+  else
+  {
     Serial.println("Failed to read temperature");
   }
-  
-  if (!isnan(humi)) {
+
+  if (!isnan(humi))
+  {
     Serial.print("Hum. % = ");
     Serial.println(humi);
     canvas.setCursor(0, 105);
@@ -89,12 +93,14 @@ void updateDisplay() {
     canvas.print(humi);
     canvas.print("%");
     canvas.setCursor(0, 120);
-    canvas.print(pressure_hPa);
+    canvas.print(pressure_hPA);
     canvas.print("hPa");
-  } else {
+  }
+  else
+  {
     Serial.println("Failed to read humidity");
   }
-  
+
   display.drawBitmap(0, 0, canvas.getBuffer(), 128, 32, 1, 0);
   display.display();
 }

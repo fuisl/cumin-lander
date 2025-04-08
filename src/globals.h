@@ -4,18 +4,18 @@
 #include <Arduino.h>
 
 // Pin definitions
-#define RED_LED      D2
-#define GREEN_LED    D6
+#define RED_LED D2
+#define GREEN_LED D6
 #ifndef LED_BLUE
-#define LED_BLUE     D7
-#endif      
-#define speakerPin   D0
-#define BUTTON       D1
+#define LED_BLUE D7
+#endif
+#define speakerPin D0
+#define BUTTON D1
 
 // Display settings
 #define SCREEN_WIDTH 128    // OLED display width in pixels
 #define SCREEN_HEIGHT 32    // OLED display height in pixels
-#define OLED_RESET   -1     // Reset pin (-1 if sharing Arduino reset pin)
+#define OLED_RESET -1       // Reset pin (-1 if sharing Arduino reset pin)
 #define SCREEN_ADDRESS 0x3C // I2C address for the display
 
 // Sensor
@@ -33,5 +33,10 @@
 // Melody data (12 notes)
 extern int melody[];
 extern int noteDurations[];
+
+// Global variables
+extern int tempC;
+extern int humi;
+extern int pressure_hPA;
 
 #endif
