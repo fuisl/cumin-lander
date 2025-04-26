@@ -24,8 +24,36 @@ This is the
 
 1. The frame was ease to made, but I didn't account for the joint, and was too careless about precision so the frame turned out to be kinda bent. Since the wire is 0.8mm OD the, it get heated very quick to the point a solder joint far from the working one get melted and it was frustrating af.
    > try to distant joints as much as possible.
-2. The
+2. The making of the leg was decent, nhưng nó bị méo, phần khó là phần gắn chân vào sub frame, vẫn chưa tìm được quy trình tốt cho việc gắn chân.
 
 > when soldering FLUX IS CRUCIAL, FLUX IS LIFE.
 
-2. The first assemble is between the LCD and the nrf board. The
+2. Joint cleaning is fine but it's optional
+
+3. 2 ways led is way cooler than 1 face led, the length should be the same to the screen which is 128mm, the resistor part is cool but we need to minimize the resistor leg length to avoid bending.
+
+> Resin does make a really good job in secure the soldering joint hard stuck in place
+
+4. Now come the battery, it is the most bull shit things i have every touch in my life, 5v is all it took to burn my skin, the surface is really hard to heat up for solder.
+
+   > we do bad GND tbh.
+
+5. The button might died due to heat we don't really know yet
+
+## MISTAKE
+
+1. no flux at the start, we didn't realized how important flux is to soldering.
+2. no drop test.
+3. short circuit is costly expensive
+
+## The flow
+
+1. first thing first, the frame has to be perfectly straght. then come the legs.
+2. when assembling the lcd, check out for the gnd session first handed. 2 gnd pins must be perfectly allign for a L shaped rod.
+3. then come the sensor.
+4. after everything work out, make the sub-frame for the legs and buzzer, assemble the legs and the buzzer onto the sub-frame
+   > đừng tiếc công nếu dây turn out short.
+   > check if the components is work after every step.
+5. Led should be the final step
+
+# FLUX IS LOVE!!! FLUX IS LIFE!!!
